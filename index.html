@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harriet Provisioning — AI Access Management for Enterprise</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #1C1B2E;
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ─── TOKENS ───────────────────────────────────────────────────── */
+    :root {
+      --purple:    #7B6CF6;
+      --purple-dk: #6456e0;
+      --yellow:    #F5D84E;
+      --lavender:  #EEEDF8;
+      --near-blk:  #1C1B2E;
+      --mid-grey:  #6B6B80;
+      --white:     #FFFFFF;
+      --card-bg:   #F7F6FE;
+      --border:    #E4E2F8;
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 28px;
+      --shadow-sm: 0 2px 8px rgba(123,108,246,0.08), 0 1px 3px rgba(28,27,46,0.06);
+      --shadow-md: 0 8px 32px rgba(123,108,246,0.12), 0 2px 8px rgba(28,27,46,0.06);
+      --shadow-lg: 0 20px 64px rgba(123,108,246,0.16), 0 4px 16px rgba(28,27,46,0.08);
+    }
+
+    /* ─── TYPOGRAPHY ───────────────────────────────────────────────── */
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+    p { line-height: 1.7; }
+
+    /* ─── NAV ──────────────────────────────────────────────────────── */
+    .nav-wrap {
+      position: sticky;
+      top: 16px;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      padding: 0 24px;
+      pointer-events: none;
+    }
+    nav {
+      pointer-events: all;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(228,226,248,0.8);
+      border-radius: 999px;
+      padding: 10px 10px 10px 24px;
+      box-shadow: 0 4px 24px rgba(123,108,246,0.10), 0 1px 4px rgba(28,27,46,0.06);
+      width: 100%;
+      max-width: 860px;
+      gap: 8px;
+    }
+    .nav-logo {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.03em;
+      color: var(--near-blk);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--mid-grey);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 999px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover { color: var(--near-blk); background: var(--lavender); }
+    .nav-cta {
+      background: var(--purple);
+      color: #fff !important;
+      padding: 9px 18px !important;
+      border-radius: 999px !important;
+      font-weight: 600 !important;
+      font-size: 14px !important;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s !important;
+    }
+    .nav-cta:hover {
+      background: var(--purple-dk) !important;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(123,108,246,0.35) !important;
+    }
+
+    /* ─── HERO ─────────────────────────────────────────────────────── */
+    .hero {
+      background: var(--purple);
+      padding: 100px 24px 96px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Subtle radial depth layer */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 20% 40%, rgba(255,255,255,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 80% at 80% 60%, rgba(100,86,224,0.5) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    /* Grain texture */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-inner { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; }
+    .hero h1 {
+      font-size: clamp(42px, 6vw, 76px);
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 24px;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+    .hero p {
+      font-size: clamp(16px, 2vw, 19px);
+      color: rgba(255,255,255,0.80);
+      max-width: 560px;
+      margin: 0 auto 36px;
+      font-weight: 400;
+      line-height: 1.65;
+    }
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 52px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      border: 2px solid transparent;
+      transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.18s, background 0.18s, border-color 0.18s, color 0.18s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: translateY(0); }
+    .btn-primary-inv {
+      background: #fff;
+      color: var(--purple);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    }
+    .btn-primary-inv:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.18); }
+    .btn-ghost {
+      background: transparent;
+      color: #fff;
+      border-color: rgba(255,255,255,0.55);
+    }
+    .btn-ghost:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+    .btn-primary {
+      background: var(--purple);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(123,108,246,0.35);
+    }
+    .btn-primary:hover {
+      background: var(--purple-dk);
+      box-shadow: 0 8px 28px rgba(123,108,246,0.45);
+    }
+    .btn-secondary {
+      background: #fff;
+      color: var(--near-blk);
+      border-color: var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--purple); color: var(--purple); }
+
+    /* Integration badges */
+    .integration-badges {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.22);
+      color: rgba(255,255,255,0.90);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 999px;
+      letter-spacing: 0.01em;
+      backdrop-filter: blur(4px);
+    }
+    .badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.55);
+      flex-shrink: 0;
+    }
+
+    /* ─── SECTION SHELL ────────────────────────────────────────────── */
+    section { padding: 96px 24px; }
+    .container { max-width: 1080px; margin: 0 auto; }
+    .section-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+      margin-bottom: 20px;
+    }
+    .section-label-pill {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--purple);
+      color: #fff;
+      padding: 6px 16px;
+      border-radius: 999px;
+      margin-bottom: 24px;
+    }
+    .section-heading {
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 800;
+      color: var(--near-blk);
+      margin-bottom: 16px;
+      letter-spacing: -0.025em;
+    }
+    .section-sub {
+      font-size: 18px;
+      color: var(--mid-grey);
+      max-width: 560px;
+      line-height: 1.65;
+    }
+
+    /* ─── PROBLEM SECTION ──────────────────────────────────────────── */
+    .problem { background: #fff; }
+    .problem-header { margin-bottom: 56px; }
+    .numbered-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .num-card {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 32px 28px;
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s;
+    }
+    .num-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .num-card .card-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--purple);
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+    }
+    .num-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--near-blk);
+      margin-bottom: 12px;
+      line-height: 1.25;
+    }
+    .num-card p {
+      font-size: 14.5px;
+      color: var(--mid-grey);
+      line-height: 1.65;
+    }
+
+    /* ─── HOW IT WORKS ─────────────────────────────────────────────── */
+    .how { background: var(--lavender); }
+    .how-header { text-align: center; margin-bottom: 56px; }
+    .how .numbered-cards .num-card {
+      background: #fff;
+      border-color: rgba(228,226,248,0.6);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* ─── FEATURES ─────────────────────────────────────────────────── */
+    .features { background: #fff; }
+    .features-header { margin-bottom: 56px; }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .feature-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s;
+    }
+    .feature-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .feature-icon {
+      width: 44px; height: 44px;
+      border-radius: var(--radius-sm);
+      background: rgba(123,108,246,0.10);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+      flex-shrink: 0;
+    }
+    .feature-icon svg { width: 22px; height: 22px; }
+    .feature-card h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--near-blk);
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+    .feature-card p {
+      font-size: 14.5px;
+      color: var(--mid-grey);
+      line-height: 1.65;
+    }
+
+    /* ─── DASHBOARD CARD ───────────────────────────────────────────── */
+    .dashboard-wrap {
+      background: #fff;
+      padding: 0 24px 96px;
+    }
+    .dashboard-container { max-width: 1080px; margin: 0 auto; }
+    .dashboard-outer {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      height: 420px;
+      display: flex;
+    }
+
+    /* Sidebar */
+    .dash-sidebar {
+      width: 200px;
+      flex-shrink: 0;
+      background: #fff;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 24px 0;
+    }
+    .dash-sidebar-logo {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+      color: var(--near-blk);
+      padding: 0 20px 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+    .dash-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--mid-grey);
+      cursor: pointer;
+      margin: 1px 8px;
+      border-radius: 8px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .dash-nav-item.active {
+      background: rgba(123,108,246,0.10);
+      color: var(--purple);
+      font-weight: 600;
+    }
+    .dash-nav-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    /* Main panel */
+    .dash-main {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .dash-header {
+      padding: 20px 28px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .dash-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--near-blk);
+      letter-spacing: -0.01em;
+    }
+    .dash-subtitle {
+      font-size: 12px;
+      color: var(--mid-grey);
+      margin-top: 2px;
+    }
+    .dash-badge {
+      background: rgba(123,108,246,0.10);
+      color: var(--purple);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .dash-table-wrap { padding: 20px 28px; overflow: auto; }
+    .dash-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .dash-table th {
+      text-align: left;
+      padding: 0 0 12px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--purple);
+      border-bottom: 1.5px solid var(--border);
+    }
+    .dash-table th:not(:first-child) { padding-left: 20px; }
+    .dash-table td {
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(228,226,248,0.5);
+      color: var(--near-blk);
+      font-weight: 500;
+    }
+    .dash-table td:not(:first-child) { padding-left: 20px; }
+    .dash-table tr:last-child td { border-bottom: none; }
+    .team-name { font-weight: 600; color: var(--near-blk); }
+    .model-tag {
+      background: var(--lavender);
+      color: var(--near-blk);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+    .cost { color: var(--mid-grey); font-size: 13px; }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .status-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+    }
+    .status-live {
+      background: rgba(34,197,94,0.10);
+      color: #15803d;
+    }
+    .status-live .status-dot { background: #22c55e; }
+    .status-paused {
+      background: rgba(249,115,22,0.10);
+      color: #c2410c;
+    }
+    .status-paused .status-dot { background: #f97316; }
+
+    /* Stat row */
+    .dash-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+    .dash-stat {
+      padding: 14px 28px;
+      border-right: 1px solid var(--border);
+    }
+    .dash-stat:last-child { border-right: none; }
+    .dash-stat-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--mid-grey);
+      margin-bottom: 4px;
+    }
+    .dash-stat-val {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--near-blk);
+      letter-spacing: -0.02em;
+    }
+    .dash-stat-val span {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--mid-grey);
+    }
+
+    /* ─── CTA ──────────────────────────────────────────────────────── */
+    .cta { background: var(--yellow); text-align: center; }
+    .cta h2 {
+      font-size: clamp(32px, 4vw, 56px);
+      font-weight: 900;
+      color: var(--near-blk);
+      margin-bottom: 16px;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+      letter-spacing: -0.03em;
+    }
+    .cta-sub {
+      font-size: 17px;
+      color: rgba(28,27,46,0.70);
+      margin-bottom: 40px;
+      font-weight: 500;
+    }
+    .cta-form {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .cta-input {
+      padding: 14px 22px;
+      border-radius: 999px;
+      border: 2px solid rgba(28,27,46,0.12);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: var(--near-blk);
+      background: rgba(255,255,255,0.70);
+      width: 280px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .cta-input:focus {
+      border-color: var(--purple);
+      background: #fff;
+    }
+    .cta-input::placeholder { color: rgba(28,27,46,0.40); }
+    .cta-note {
+      font-size: 13px;
+      color: rgba(28,27,46,0.55);
+      font-weight: 500;
+    }
+    .cta-thanks {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .cta-thanks-icon {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: rgba(28,27,46,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+    .cta-thanks h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--near-blk);
+    }
+    .cta-thanks p {
+      color: rgba(28,27,46,0.65);
+      font-size: 16px;
+    }
+
+    /* ─── FOOTER ───────────────────────────────────────────────────── */
+    footer {
+      background: var(--near-blk);
+      padding: 36px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-logo {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.03em;
+      color: #fff;
+    }
+    .footer-right {
+      font-size: 13px;
+      color: rgba(255,255,255,0.40);
+    }
+
+    /* ─── RESPONSIVE ───────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      nav { padding: 10px 10px 10px 20px; }
+      .nav-mobile-cta { display: flex !important; }
+
+      section { padding: 72px 20px; }
+
+      .numbered-cards { grid-template-columns: 1fr; gap: 16px; }
+      .features-grid { grid-template-columns: 1fr; gap: 16px; }
+
+      .hero { padding: 80px 20px 80px; }
+      .hero h1 { font-size: 42px; }
+
+      .dashboard-outer { height: 340px; }
+      .dash-sidebar { width: 56px; }
+      .dash-sidebar-logo { padding: 0 16px 20px; font-size: 0; }
+      .dash-sidebar-logo::after { content: 'H'; font-size: 16px; }
+      .dash-nav-item span { display: none; }
+      .dash-nav-item { justify-content: center; padding: 9px; }
+      .dash-nav-item svg { width: 18px; height: 18px; }
+
+      .dash-table th:nth-child(3),
+      .dash-table td:nth-child(3) { display: none; }
+
+      footer { flex-direction: column; gap: 8px; text-align: center; padding: 28px 20px; }
+    }
+
+    /* ─── ANIMATIONS ───────────────────────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1);
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up-d1 { transition-delay: 0.05s; }
+    .fade-up-d2 { transition-delay: 0.12s; }
+    .fade-up-d3 { transition-delay: 0.19s; }
+    .fade-up-d4 { transition-delay: 0.26s; }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ──────────────────────────────────────────────────────── -->
+<div class="nav-wrap">
+  <nav>
+    <a href="#" class="nav-logo">Harriet</a>
+    <ul class="nav-links">
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#cta" class="nav-cta">Request access</a></li>
+    </ul>
+    <!-- Mobile only -->
+    <a href="#cta" class="nav-cta" style="display:none;" id="mobile-nav-cta">Request access</a>
+  </nav>
+</div>
+
+<!-- ─── HERO ──────────────────────────────────────────────────────── -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <h1>Roll out AI to&nbsp;your team. Properly.</h1>
+    <p>Harriet gives IT teams a control layer for deploying Claude, ChatGPT, and other AI tools — with the access management, key security, and usage visibility that enterprise rollouts actually need.</p>
+    <div class="hero-buttons">
+      <a href="#cta" class="btn btn-primary-inv">Request early access</a>
+      <a href="#how" class="btn btn-ghost">See how it works →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── THE PROBLEM ───────────────────────────────────────────────── -->
+<section class="problem" id="problem">
+  <div class="container">
+    <div class="problem-header fade-up">
+      <div class="section-label">The Challenge</div>
+      <h2 class="section-heading">AI adoption is happening.<br>Just not safely.</h2>
+    </div>
+    <div class="numbered-cards">
+      <div class="num-card fade-up fade-up-d1">
+        <div class="card-num">01</div>
+        <h3>Employees go rogue</h3>
+        <p>Staff are already using personal ChatGPT accounts and free AI tools. Sensitive data is leaving your systems and IT has zero visibility.</p>
+      </div>
+      <div class="num-card fade-up fade-up-d2">
+        <div class="card-num">02</div>
+        <h3>No central control</h3>
+        <p>There's no single place to manage who has which AI tools, what they can access, and what it's costing the business.</p>
+      </div>
+      <div class="num-card fade-up fade-up-d3">
+        <div class="card-num">03</div>
+        <h3>Rollouts stall</h3>
+        <p>Security blocks AI tools entirely because there's no governed way to deploy them. Adoption dies. Value never materialises.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HOW IT WORKS ──────────────────────────────────────────────── -->
+<section class="how" id="how">
+  <div class="container">
+    <div class="how-header fade-up">
+      <div class="section-label-pill">How it works</div>
+      <h2 class="section-heading">Provision. Govern. Deploy.</h2>
+    </div>
+    <div class="numbered-cards">
+      <div class="num-card fade-up fade-up-d1">
+        <div class="card-num">01</div>
+        <h3>Connect your AI tools</h3>
+        <p>Link Claude, ChatGPT, or any model. API keys are held securely in escrow — they never live in spreadsheets or employee inboxes.</p>
+      </div>
+      <div class="num-card fade-up fade-up-d2">
+        <div class="card-num">02</div>
+        <h3>Define roles and permissions</h3>
+        <p>Set which teams get which models, with which integrations, scoped to what they actually need. Finance sees different tools than Engineering.</p>
+      </div>
+      <div class="num-card fade-up fade-up-d3">
+        <div class="card-num">03</div>
+        <h3>Deploy and track adoption</h3>
+        <p>Employees get a ready-to-use AI environment built for their role. You get a live dashboard of usage, cost, and adoption across the org.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FEATURES ──────────────────────────────────────────────────── -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="features-header fade-up">
+      <div class="section-label">Features</div>
+      <h2 class="section-heading">Everything IT needs.<br>Nothing it doesn't.</h2>
+    </div>
+    <div class="features-grid">
+
+      <!-- Key escrow -->
+      <div class="feature-card fade-up fade-up-d1">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7B6CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+          </svg>
+        </div>
+        <h3>Key escrow</h3>
+        <p>API keys are held centrally and never exposed to end users. Rotate or revoke access instantly without touching individual machines.</p>
+      </div>
+
+      <!-- Role-based access -->
+      <div class="feature-card fade-up fade-up-d2">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7B6CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3>Role-based access</h3>
+        <p>Provision different AI capabilities to different teams. Marketing, Legal, and Engineering each get the tools that are right for them.</p>
+      </div>
+
+      <!-- Usage visibility -->
+      <div class="feature-card fade-up fade-up-d3">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7B6CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/>
+          </svg>
+        </div>
+        <h3>Usage visibility</h3>
+        <p>See who's using AI, how much it's costing, and where adoption is lagging. Make the business case with real data.</p>
+      </div>
+
+      <!-- Pre-built integrations -->
+      <div class="feature-card fade-up fade-up-d4">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7B6CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+            <path d="M6 9v6"/><path d="M9 18h6"/><path d="M9 6h3a6 6 0 0 1 6 6v3"/>
+          </svg>
+        </div>
+        <h3>Pre-built integrations</h3>
+        <p>Deploy AI with connections to your existing stack — Slack, Jira, Salesforce, HiBob — pre-configured and ready from day one.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── MOCK DASHBOARD ────────────────────────────────────────────── -->
+<div class="dashboard-wrap">
+  <div class="dashboard-container">
+    <div class="dashboard-outer fade-up">
+
+      <!-- Sidebar -->
+      <div class="dash-sidebar">
+        <div class="dash-sidebar-logo">Harriet</div>
+        <div class="dash-nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>Users</span>
+        </div>
+        <div class="dash-nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Roles</span>
+        </div>
+        <div class="dash-nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M6 9v6"/><path d="M9 18h6"/><path d="M9 6h3a6 6 0 0 1 6 6v3"/></svg>
+          <span>Integrations</span>
+        </div>
+        <div class="dash-nav-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+          <span>Usage</span>
+        </div>
+      </div>
+
+      <!-- Main panel -->
+      <div class="dash-main">
+        <div class="dash-header">
+          <div>
+            <div class="dash-title">Active Deployments</div>
+            <div class="dash-subtitle">3 environments · last updated just now</div>
+          </div>
+          <div class="dash-badge">3 Active</div>
+        </div>
+        <div class="dash-table-wrap">
+          <table class="dash-table">
+            <thead>
+              <tr>
+                <th>Team</th>
+                <th>Model</th>
+                <th>Users</th>
+                <th>Monthly cost</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="team-name">Engineering</td>
+                <td><span class="model-tag">Claude Sonnet</span></td>
+                <td>24 users</td>
+                <td class="cost">$312 / mo</td>
+                <td>
+                  <span class="status-badge status-live">
+                    <span class="status-dot"></span>Live
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td class="team-name">Marketing</td>
+                <td><span class="model-tag">ChatGPT-4o</span></td>
+                <td>11 users</td>
+                <td class="cost">$89 / mo</td>
+                <td>
+                  <span class="status-badge status-live">
+                    <span class="status-dot"></span>Live
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td class="team-name">Legal</td>
+                <td><span class="model-tag">Claude Opus</span></td>
+                <td>6 users</td>
+                <td class="cost">$210 / mo</td>
+                <td>
+                  <span class="status-badge status-paused">
+                    <span class="status-dot"></span>Paused
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="dash-stats">
+          <div class="dash-stat">
+            <div class="dash-stat-label">Total users</div>
+            <div class="dash-stat-val">41 <span>active</span></div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-label">Monthly spend</div>
+            <div class="dash-stat-val">$611 <span>/ mo</span></div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-label">Deployments</div>
+            <div class="dash-stat-val">3 <span>envs</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ─── CTA ───────────────────────────────────────────────────────── -->
+<section class="cta" id="cta">
+  <div class="container">
+    <h2 class="fade-up">Your team is already using AI. Now manage it.</h2>
+    <p class="cta-sub fade-up fade-up-d1">Join IT leaders getting early access to Harriet.</p>
+    <div class="cta-form fade-up fade-up-d2" id="cta-form">
+      <input class="cta-input" type="email" placeholder="your@company.com" id="cta-email" />
+      <button class="btn btn-primary" onclick="handleCtaSubmit()">Request access</button>
+    </div>
+    <div class="cta-thanks fade-up" id="cta-thanks">
+      <div class="cta-thanks-icon">✓</div>
+      <h3>You're on the list.</h3>
+      <p>We'll be in touch soon with early access details.</p>
+    </div>
+    <p class="cta-note fade-up fade-up-d3" id="cta-note">No commitment. Early access is free.</p>
+  </div>
+</section>
+
+<!-- ─── FOOTER ────────────────────────────────────────────────────── -->
+<footer>
+  <span class="footer-logo">Harriet</span>
+  <span class="footer-right">© 2026 Harriet Provisioning Ltd. All rights reserved.</span>
+</footer>
+
+<!-- ─── JS ───────────────────────────────────────────────────────── -->
+<script>
+  // Intersection Observer for fade-up animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Hero elements visible immediately
+  document.querySelectorAll('.hero .fade-up').forEach(el => el.classList.add('visible'));
+
+  // CTA form
+  function handleCtaSubmit() {
+    const email = document.getElementById('cta-email').value.trim();
+    if (!email || !email.includes('@')) {
+      document.getElementById('cta-email').focus();
+      document.getElementById('cta-email').style.borderColor = '#ef4444';
+      setTimeout(() => document.getElementById('cta-email').style.borderColor = '', 1500);
+      return;
+    }
+    document.getElementById('cta-form').style.display = 'none';
+    document.getElementById('cta-note').style.display = 'none';
+    const thanks = document.getElementById('cta-thanks');
+    thanks.style.display = 'flex';
+    thanks.classList.add('visible');
+  }
+
+  // Enter on email input
+  document.getElementById('cta-email').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleCtaSubmit();
+  });
+
+  // Mobile nav
+  function checkMobileNav() {
+    const mobileBtn = document.getElementById('mobile-nav-cta');
+    if (window.innerWidth <= 768) {
+      mobileBtn.style.display = 'flex';
+    } else {
+      mobileBtn.style.display = 'none';
+    }
+  }
+  checkMobileNav();
+  window.addEventListener('resize', checkMobileNav);
+</script>
+
+</body>
+</html>
