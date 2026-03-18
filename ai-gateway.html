@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Gateway by Harriet — Seamless, Permissioned AI for Every Employee</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #1C1B2E;
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ─── TOKENS ───────────────────────────────────────────────────── */
+    :root {
+      --purple:    #7B6CF6;
+      --purple-dk: #6456e0;
+      --yellow:    #F5D84E;
+      --lavender:  #EEEDF8;
+      --near-blk:  #1C1B2E;
+      --mid-grey:  #6B6B80;
+      --white:     #FFFFFF;
+      --card-bg:   #F7F6FE;
+      --border:    #E4E2F8;
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 28px;
+      --shadow-sm: 0 2px 8px rgba(123,108,246,0.08), 0 1px 3px rgba(28,27,46,0.06);
+      --shadow-md: 0 8px 32px rgba(123,108,246,0.12), 0 2px 8px rgba(28,27,46,0.06);
+      --shadow-lg: 0 20px 64px rgba(123,108,246,0.16), 0 4px 16px rgba(28,27,46,0.08);
+    }
+
+    /* ─── TYPOGRAPHY ───────────────────────────────────────────────── */
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+    p { line-height: 1.7; }
+
+    /* ─── NAV ──────────────────────────────────────────────────────── */
+    .nav-wrap {
+      position: sticky;
+      top: 16px;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      padding: 0 24px;
+      pointer-events: none;
+    }
+    nav {
+      pointer-events: all;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(228,226,248,0.8);
+      border-radius: 999px;
+      padding: 10px 10px 10px 24px;
+      box-shadow: 0 4px 24px rgba(123,108,246,0.10), 0 1px 4px rgba(28,27,46,0.06);
+      width: 100%;
+      max-width: 860px;
+      gap: 8px;
+    }
+    .nav-logo {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.03em;
+      color: var(--near-blk);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--mid-grey);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 999px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover { color: var(--near-blk); background: var(--lavender); }
+    .nav-cta {
+      background: var(--purple);
+      color: #fff !important;
+      padding: 9px 18px !important;
+      border-radius: 999px !important;
+      font-weight: 600 !important;
+      font-size: 14px !important;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s !important;
+    }
+    .nav-cta:hover {
+      background: var(--purple-dk) !important;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(123,108,246,0.35) !important;
+    }
+
+    /* ─── BUTTONS ──────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      border: 2px solid transparent;
+      transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.18s, background 0.18s, border-color 0.18s, color 0.18s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: translateY(0); }
+    .btn-primary-inv {
+      background: #fff;
+      color: var(--purple);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    }
+    .btn-primary-inv:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.18); }
+    .btn-ghost {
+      background: transparent;
+      color: #fff;
+      border-color: rgba(255,255,255,0.55);
+    }
+    .btn-ghost:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+    .btn-primary {
+      background: var(--purple);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(123,108,246,0.35);
+    }
+    .btn-primary:hover {
+      background: var(--purple-dk);
+      box-shadow: 0 8px 28px rgba(123,108,246,0.45);
+    }
+    .btn-secondary {
+      background: #fff;
+      color: var(--near-blk);
+      border-color: var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--purple); color: var(--purple); }
+
+    /* ─── SECTION SHELL ────────────────────────────────────────────── */
+    section { padding: 96px 24px; }
+    .container { max-width: 1080px; margin: 0 auto; }
+    .section-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+      margin-bottom: 20px;
+    }
+    .section-label-pill {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--purple);
+      color: #fff;
+      padding: 6px 16px;
+      border-radius: 999px;
+      margin-bottom: 24px;
+    }
+    .section-heading {
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 800;
+      color: var(--near-blk);
+      margin-bottom: 16px;
+      letter-spacing: -0.025em;
+    }
+    .section-sub {
+      font-size: 18px;
+      color: var(--mid-grey);
+      max-width: 560px;
+      line-height: 1.65;
+    }
+
+    /* ─── A/B HERO WRAPPER ─────────────────────────────────────────── */
+    .ab-hero-section {
+      background: #fff;
+      padding: 64px 24px 80px;
+    }
+    .ab-hero-container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .ab-label-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+    .ab-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+    }
+    .ab-eyebrow-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--lavender);
+      color: var(--purple);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 999px;
+    }
+    .ab-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--purple); flex-shrink: 0; }
+
+    /* The two hero cards */
+    .ab-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+    .hero-card {
+      border-radius: var(--radius-lg);
+      padding: 52px 48px 48px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Variant A — dark purple (like the existing hero) */
+    .hero-card-a {
+      background: var(--purple);
+    }
+    .hero-card-a::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 20% 40%, rgba(255,255,255,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 80% at 80% 60%, rgba(100,86,224,0.5) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-card-a::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    /* Variant B — near-black */
+    .hero-card-b {
+      background: var(--near-blk);
+    }
+    .hero-card-b::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 80% 20%, rgba(123,108,246,0.18) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 50% at 10% 80%, rgba(123,108,246,0.10) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-card-inner { position: relative; z-index: 1; display: flex; flex-direction: column; flex: 1; }
+
+    .variant-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 999px;
+      width: fit-content;
+      margin-bottom: 28px;
+    }
+    .variant-pill-a {
+      background: rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.95);
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .variant-pill-b {
+      background: rgba(123,108,246,0.20);
+      color: rgba(123,108,246,1);
+      border: 1px solid rgba(123,108,246,0.35);
+    }
+    .variant-pip {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .variant-pip-a { background: rgba(255,255,255,0.85); }
+    .variant-pip-b { background: var(--purple); }
+
+    .hero-card h1 {
+      font-size: clamp(28px, 3.2vw, 44px);
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 20px;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+    .hero-card p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.76);
+      line-height: 1.65;
+      margin-bottom: 32px;
+      flex: 1;
+    }
+    .hero-card-b p {
+      color: rgba(255,255,255,0.65);
+    }
+    .hero-btns {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .hero-card .btn {
+      font-size: 14px;
+      padding: 11px 22px;
+    }
+    .integration-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.20);
+      color: rgba(255,255,255,0.85);
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 999px;
+      letter-spacing: 0.01em;
+      backdrop-filter: blur(4px);
+    }
+    .badge-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.50);
+      flex-shrink: 0;
+    }
+    /* Variant B badge tweaks */
+    .hero-card-b .badge {
+      background: rgba(123,108,246,0.15);
+      border-color: rgba(123,108,246,0.30);
+      color: rgba(255,255,255,0.80);
+    }
+    .hero-card-b .badge-dot { background: var(--purple); opacity: 0.8; }
+
+    /* Angle description strip */
+    .angle-strip {
+      margin-top: 14px;
+      padding: 14px 18px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* ─── HOW IT WORKS ─────────────────────────────────────────────── */
+    .how { background: var(--lavender); }
+    .how-header { text-align: center; margin-bottom: 56px; }
+    .numbered-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .num-card {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 32px 28px;
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s;
+      box-shadow: var(--shadow-sm);
+    }
+    .num-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .num-card .card-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--purple);
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+    }
+    .num-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--near-blk);
+      margin-bottom: 12px;
+      line-height: 1.25;
+    }
+    .num-card p {
+      font-size: 14.5px;
+      color: var(--mid-grey);
+      line-height: 1.65;
+    }
+
+    /* connector arrows */
+    .how-steps {
+      display: grid;
+      grid-template-columns: 1fr 28px 1fr 28px 1fr;
+      gap: 0;
+      align-items: start;
+    }
+    .how-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 44px;
+      color: var(--purple);
+      opacity: 0.45;
+    }
+    .how-arrow svg { width: 20px; height: 20px; }
+
+    /* ─── FEATURES ─────────────────────────────────────────────────── */
+    .features { background: #fff; }
+    .features-header { margin-bottom: 56px; }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .feature-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s;
+    }
+    .feature-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .feature-icon {
+      width: 44px; height: 44px;
+      border-radius: var(--radius-sm);
+      background: rgba(123,108,246,0.10);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+      flex-shrink: 0;
+    }
+    .feature-icon svg { width: 22px; height: 22px; }
+    .feature-card h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--near-blk);
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+    .feature-card p {
+      font-size: 14.5px;
+      color: var(--mid-grey);
+      line-height: 1.65;
+    }
+
+    /* ─── ARCHITECTURE DIAGRAM ─────────────────────────────────────── */
+    .arch-wrap {
+      background: #fff;
+      padding: 0 24px 96px;
+    }
+    .arch-container { max-width: 1080px; margin: 0 auto; }
+    .arch-outer {
+      background: var(--near-blk);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      padding: 40px 48px;
+    }
+    .arch-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 32px;
+    }
+    .arch-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 16px;
+    }
+    .arch-row:last-child { margin-bottom: 0; }
+    .arch-node {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      text-align: center;
+    }
+    .arch-node-highlight {
+      background: rgba(123,108,246,0.22);
+      border-color: rgba(123,108,246,0.50);
+    }
+    .arch-node-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.40);
+      margin-bottom: 4px;
+    }
+    .arch-node-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.90);
+      letter-spacing: -0.01em;
+    }
+    .arch-node-sub {
+      font-size: 11.5px;
+      color: rgba(255,255,255,0.40);
+      margin-top: 2px;
+    }
+    .arch-node-highlight .arch-node-name { color: #fff; }
+    .arch-node-highlight .arch-node-label { color: rgba(123,108,246,0.90); }
+    .arch-arrow {
+      width: 40px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(123,108,246,0.60);
+    }
+    .arch-arrow svg { width: 18px; height: 18px; }
+    .arch-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 20px 0;
+    }
+    .arch-bottom-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .arch-bottom-node {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 12px 14px;
+      text-align: center;
+    }
+    .arch-bottom-node-name {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.70);
+    }
+    .arch-bottom-node-type {
+      font-size: 10.5px;
+      color: rgba(255,255,255,0.30);
+      margin-top: 2px;
+    }
+    .arch-bottom-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      margin-bottom: 10px;
+    }
+    .arch-center-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(123,108,246,0.15);
+      border: 1px solid rgba(123,108,246,0.35);
+      color: rgba(123,108,246,1);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-top: 8px;
+    }
+
+    /* ─── CTA ──────────────────────────────────────────────────────── */
+    .cta { background: var(--yellow); text-align: center; }
+    .cta h2 {
+      font-size: clamp(32px, 4vw, 56px);
+      font-weight: 900;
+      color: var(--near-blk);
+      margin-bottom: 16px;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+      letter-spacing: -0.03em;
+    }
+    .cta-sub {
+      font-size: 17px;
+      color: rgba(28,27,46,0.70);
+      margin-bottom: 40px;
+      font-weight: 500;
+    }
+    .cta-form {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .cta-input {
+      padding: 14px 22px;
+      border-radius: 999px;
+      border: 2px solid rgba(28,27,46,0.12);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: var(--near-blk);
+      background: rgba(255,255,255,0.70);
+      width: 280px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .cta-input:focus {
+      border-color: var(--purple);
+      background: #fff;
+    }
+    .cta-input::placeholder { color: rgba(28,27,46,0.40); }
+    .cta-note {
+      font-size: 13px;
+      color: rgba(28,27,46,0.55);
+      font-weight: 500;
+    }
+    .cta-thanks {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .cta-thanks-icon {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: rgba(28,27,46,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+    .cta-thanks h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--near-blk);
+    }
+    .cta-thanks p {
+      color: rgba(28,27,46,0.65);
+      font-size: 16px;
+    }
+
+    /* ─── FOOTER ───────────────────────────────────────────────────── */
+    footer {
+      background: var(--near-blk);
+      padding: 36px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-logo {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.03em;
+      color: #fff;
+    }
+    .footer-right {
+      font-size: 13px;
+      color: rgba(255,255,255,0.40);
+    }
+
+    /* ─── RESPONSIVE ───────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .ab-grid { grid-template-columns: 1fr; }
+      .how-steps {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .how-arrow { display: none; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      nav { padding: 10px 10px 10px 20px; }
+
+      section { padding: 72px 20px; }
+      .ab-hero-section { padding: 48px 20px 64px; }
+      .hero-card { padding: 36px 28px 32px; }
+      .hero-card h1 { font-size: 32px; }
+
+      .features-grid { grid-template-columns: 1fr; gap: 16px; }
+
+      .arch-wrap { padding: 0 20px 72px; }
+      .arch-outer { padding: 28px 24px; }
+      .arch-bottom-row { grid-template-columns: repeat(2, 1fr); }
+      .arch-arrow { width: 24px; }
+
+      footer { flex-direction: column; gap: 8px; text-align: center; padding: 28px 20px; }
+    }
+
+    /* ─── ANIMATIONS ───────────────────────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1);
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up-d1 { transition-delay: 0.05s; }
+    .fade-up-d2 { transition-delay: 0.12s; }
+    .fade-up-d3 { transition-delay: 0.19s; }
+    .fade-up-d4 { transition-delay: 0.26s; }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ──────────────────────────────────────────────────────── -->
+<div class="nav-wrap">
+  <nav>
+    <a href="#" class="nav-logo">Harriet</a>
+    <ul class="nav-links">
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#cta" class="nav-cta">Book a demo</a></li>
+    </ul>
+    <a href="#cta" class="nav-cta" style="display:none;" id="mobile-nav-cta">Book a demo</a>
+  </nav>
+</div>
+
+<!-- ─── A/B HERO VARIANTS ─────────────────────────────────────────── -->
+<div class="ab-hero-section">
+  <div class="ab-hero-container">
+
+    <div class="ab-label-row fade-up">
+      <span class="ab-eyebrow">AI Gateway by Harriet</span>
+      <span style="color:var(--border);">·</span>
+      <span class="ab-eyebrow-pill">
+        <span class="ab-dot"></span>
+        A/B messaging — pick one
+      </span>
+    </div>
+
+    <div class="ab-grid">
+
+      <!-- ── VARIANT A: Security & Control ── -->
+      <div class="hero-card hero-card-a fade-up fade-up-d1">
+        <div class="hero-card-inner">
+          <div class="variant-pill variant-pill-a">
+            <span class="variant-pip variant-pip-a"></span>
+            Variant A — Security &amp; Control
+          </div>
+          <h1>Shadow AI is already in your organisation. Now you can control it.</h1>
+          <p>Employees are already using Claude, ChatGPT, and a dozen other AI tools — with their personal accounts, your company data, and zero IT oversight. Harriet AI Gateway is the Okta for AI: a centralised control plane that enforces who can access what, across every model and every system, without slowing anyone down.</p>
+          <div class="hero-btns">
+            <a href="#cta" class="btn btn-primary-inv">Book a demo</a>
+            <a href="#how" class="btn btn-ghost">See how it works →</a>
+          </div>
+          <div class="integration-badges">
+            <span class="badge"><span class="badge-dot"></span>Centralised key escrow</span>
+            <span class="badge"><span class="badge-dot"></span>Role-based access</span>
+            <span class="badge"><span class="badge-dot"></span>Full audit trail</span>
+          </div>
+          <div class="angle-strip">
+            Angle: IT teams are losing control as employees adopt AI ad hoc. Position Harriet as the compliance and governance layer — the system of record for AI access across the organisation.
+          </div>
+        </div>
+      </div>
+
+      <!-- ── VARIANT B: Adoption & Connection ── -->
+      <div class="hero-card hero-card-b fade-up fade-up-d2">
+        <div class="hero-card-inner">
+          <div class="variant-pill variant-pill-b">
+            <span class="variant-pip variant-pip-b"></span>
+            Variant B — Adoption &amp; Connection
+          </div>
+          <h1>Give your team AI that actually works across all your systems.</h1>
+          <p>AI sitting on top of one app isn't the promise. The promise is AI that reaches across your ATS, your HR tool, your docs, your data — and connects them. Harriet AI Gateway provisions those integrations automatically, so every employee has an AI that's wired into the systems they use from the moment they log in.</p>
+          <div class="hero-btns">
+            <a href="#cta" class="btn btn-primary-inv">Book a demo</a>
+            <a href="#how" class="btn btn-ghost">See how it works →</a>
+          </div>
+          <div class="integration-badges">
+            <span class="badge"><span class="badge-dot"></span>Auto-provisioned</span>
+            <span class="badge"><span class="badge-dot"></span>Any MCP tool</span>
+            <span class="badge"><span class="badge-dot"></span>Connected from day one</span>
+          </div>
+          <div class="angle-strip">
+            Angle: The real value of AI is cross-system intelligence. Position Harriet as the infrastructure layer that makes AI genuinely useful — not just another chat window — by wiring it into the tools teams already live in.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ─── HOW IT WORKS ──────────────────────────────────────────────── -->
+<section class="how" id="how">
+  <div class="container">
+    <div class="how-header fade-up">
+      <div class="section-label-pill">How it works</div>
+      <h2 class="section-heading">Three steps to an AI-ready organisation.</h2>
+      <p class="section-sub">Connect once. Set permissions once. Everyone gets exactly the access they should — automatically.</p>
+    </div>
+
+    <div class="how-steps">
+      <div class="num-card fade-up fade-up-d1">
+        <div class="card-num">01</div>
+        <h3>Connect your tools</h3>
+        <p>Link your AI models — Claude, ChatGPT, Gemini — and your company systems: your ATS, HRIS, Salesforce, Confluence, Jira. Keys and credentials are held securely in escrow. Nothing lives in a spreadsheet or an inbox.</p>
+      </div>
+      <div class="how-arrow fade-up fade-up-d2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </div>
+      <div class="num-card fade-up fade-up-d2">
+        <div class="card-num">02</div>
+        <h3>Set permissions by role</h3>
+        <p>Define what each team gets access to. Engineering can query your codebase and Jira. Finance sees cost dashboards and their ERP. Legal gets read-only access to contracts — nothing more. You control the scope; Harriet enforces it.</p>
+      </div>
+      <div class="how-arrow fade-up fade-up-d3">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </div>
+      <div class="num-card fade-up fade-up-d3">
+        <div class="card-num">03</div>
+        <h3>Everyone gets seamless access</h3>
+        <p>Each employee's AI client is automatically provisioned with the right models and the right system connections. New starters are ready from day one. Leavers are cut off instantly. No manual setup. No configuration tickets.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── ARCHITECTURE DIAGRAM ──────────────────────────────────────── -->
+<div class="arch-wrap">
+  <div class="arch-container">
+    <div class="arch-outer fade-up">
+
+      <div class="arch-title">How AI Gateway sits in your stack</div>
+
+      <!-- Row: AI clients -->
+      <div style="margin-bottom: 8px;">
+        <div class="arch-bottom-label">Your employees' AI clients</div>
+        <div class="arch-bottom-row">
+          <div class="arch-bottom-node">
+            <div class="arch-bottom-node-name">Claude (Desktop)</div>
+            <div class="arch-bottom-node-type">Anthropic / MCP</div>
+          </div>
+          <div class="arch-bottom-node">
+            <div class="arch-bottom-node-name">ChatGPT</div>
+            <div class="arch-bottom-node-type">OpenAI / MCP</div>
+          </div>
+          <div class="arch-bottom-node">
+            <div class="arch-bottom-node-name">Cursor</div>
+            <div class="arch-bottom-node-type">IDE / MCP</div>
+          </div>
+          <div class="arch-bottom-node">
+            <div class="arch-bottom-node-name">Any MCP tool</div>
+            <div class="arch-bottom-node-type">Open standard</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Arrow down -->
+      <div style="display:flex; justify-content:center; padding: 6px 0; color: rgba(123,108,246,0.5);">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      </div>
+
+      <!-- Gateway node -->
+      <div class="arch-row" style="margin-bottom: 6px;">
+        <div class="arch-node arch-node-highlight" style="text-align:center;">
+          <div class="arch-node-label">Harriet</div>
+          <div class="arch-node-name">AI Gateway</div>
+          <div class="arch-node-sub">Identity · Permissions · Key escrow · Audit log</div>
+          <div style="display:flex; justify-content:center;">
+            <span class="arch-center-badge">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              MCP-native
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Arrow down -->
+      <div style="display:flex; justify-content:center; padding: 6px 0; color: rgba(123,108,246,0.5);">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      </div>
+
+      <!-- Row: Company systems -->
+      <div>
+        <div class="arch-bottom-label">Your company systems</div>
+        <div class="arch-bottom-row">
+          <div class="arch-bottom-node">
+            <div class="arch-bottom-node-name">Salesforce</div>
+            <div class="arch-bottom-node-type">CRM</div>
+          </div>
+          <div class="arch-bottom-node">
+            <div class="arch-bottom-node-name">HiBob / Workday</div>
+            <div class="arch-bottom-node-type">HRIS</div>
+          </div>
+          <div class="arch-bottom-node">
+            <div class="arch-bottom-node-name">Confluence / Notion</div>
+            <div class="arch-bottom-node-type">Knowledge</div>
+          </div>
+          <div class="arch-bottom-node">
+            <div class="arch-bottom-node-name">Jira / Linear</div>
+            <div class="arch-bottom-node-type">Project mgmt</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ─── FEATURES ──────────────────────────────────────────────────── -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="features-header fade-up">
+      <div class="section-label">Features</div>
+      <h2 class="section-heading">One gateway.<br>Total control.</h2>
+    </div>
+    <div class="features-grid">
+
+      <!-- Centralised control -->
+      <div class="feature-card fade-up fade-up-d1">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7B6CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3>Centralised access control</h3>
+        <p>One place to see every employee's AI access, across every model and every connected system. Add, change, or revoke permissions instantly — no tickets, no waiting on vendor support.</p>
+      </div>
+
+      <!-- Auto-provisioning -->
+      <div class="feature-card fade-up fade-up-d2">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7B6CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+        </div>
+        <h3>Automatic provisioning</h3>
+        <p>New hire joins? Their AI environment is ready before they open their laptop. Role changes? Permissions update automatically. Offboarding? Access is cut off the moment they leave Active Directory.</p>
+      </div>
+
+      <!-- MCP compatible -->
+      <div class="feature-card fade-up fade-up-d3">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7B6CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+            <path d="M6 9v6"/><path d="M9 18h6"/><path d="M9 6h3a6 6 0 0 1 6 6v3"/>
+          </svg>
+        </div>
+        <h3>Works with any MCP-compatible tool</h3>
+        <p>Built on the Model Context Protocol open standard. If your AI client supports MCP — Claude Desktop, Cursor, ChatGPT, or anything else — Harriet Gateway works with it. No vendor lock-in.</p>
+      </div>
+
+      <!-- Audit trail -->
+      <div class="feature-card fade-up fade-up-d4">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7B6CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+        </div>
+        <h3>Full audit trail</h3>
+        <p>Every connection, query, and data access is logged against an identity — not an API key. When compliance asks who queried the HR system on Tuesday, you have an answer in seconds, not days.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ───────────────────────────────────────────────────────── -->
+<section class="cta" id="cta">
+  <div class="container">
+    <h2 class="fade-up">Your employees are already using AI. Make it work properly.</h2>
+    <p class="cta-sub fade-up fade-up-d1">Book a 30-minute demo and see Harriet AI Gateway in action.</p>
+    <div class="cta-form fade-up fade-up-d2" id="cta-form">
+      <input class="cta-input" type="email" placeholder="your@company.com" id="cta-email" />
+      <button class="btn btn-primary" onclick="handleCtaSubmit()">Book a demo</button>
+    </div>
+    <div class="cta-thanks fade-up" id="cta-thanks">
+      <div class="cta-thanks-icon">✓</div>
+      <h3>We'll be in touch.</h3>
+      <p>Expect a calendar link within one business day.</p>
+    </div>
+    <p class="cta-note fade-up fade-up-d3" id="cta-note">No commitment. 30 minutes. See it working in your stack.</p>
+  </div>
+</section>
+
+<!-- ─── FOOTER ────────────────────────────────────────────────────── -->
+<footer>
+  <span class="footer-logo">Harriet</span>
+  <span class="footer-right">© 2026 Harriet Provisioning Ltd. All rights reserved.</span>
+</footer>
+
+<!-- ─── JS ───────────────────────────────────────────────────────── -->
+<script>
+  // Intersection Observer for fade-up animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.10 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // A/B cards visible immediately (above the fold)
+  document.querySelectorAll('.ab-hero-section .fade-up').forEach(el => el.classList.add('visible'));
+
+  // CTA form
+  function handleCtaSubmit() {
+    const email = document.getElementById('cta-email').value.trim();
+    if (!email || !email.includes('@')) {
+      const input = document.getElementById('cta-email');
+      input.focus();
+      input.style.borderColor = '#ef4444';
+      setTimeout(() => input.style.borderColor = '', 1500);
+      return;
+    }
+    document.getElementById('cta-form').style.display = 'none';
+    document.getElementById('cta-note').style.display = 'none';
+    const thanks = document.getElementById('cta-thanks');
+    thanks.style.display = 'flex';
+    thanks.classList.add('visible');
+  }
+
+  document.getElementById('cta-email').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleCtaSubmit();
+  });
+
+  // Mobile nav
+  function checkMobileNav() {
+    const mobileBtn = document.getElementById('mobile-nav-cta');
+    mobileBtn.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
+  }
+  checkMobileNav();
+  window.addEventListener('resize', checkMobileNav);
+</script>
+
+</body>
+</html>
