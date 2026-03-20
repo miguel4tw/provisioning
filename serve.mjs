@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const MIME = {
   '.html': 'text/html',
@@ -18,7 +18,8 @@ const MIME = {
 };
 
 http.createServer((req, res) => {
-  let url = req.url === '/' ? '/index.html' : req.url;
+  let url = req.url.split('?')[0]; // strip query string
+  if (url === '/' || url === '/ai-gateway-by-harriet' || url === '/ai-gateway-by-harriet/') url = '/index.html';
   const filePath = path.join(__dirname, url);
   const ext = path.extname(filePath);
   const mime = MIME[ext] || 'text/plain';
