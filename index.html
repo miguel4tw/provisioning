@@ -448,6 +448,86 @@
       .value-prop { padding: 80px 20px 88px; }
     }
 
+    /* ─── ANALYTICS GRAPHS ───────────────────────────────────────── */
+    .analytics-section {
+      padding: 56px 24px 80px;
+      background: transparent;
+      position: relative;
+    }
+    .analytics-inner { max-width: 1100px; margin: 0 auto; }
+    .analytics-header { text-align: center; margin-bottom: 52px; }
+    .analytics-kicker {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(123,108,246,0.08); border: 1px solid rgba(123,108,246,0.20);
+      color: var(--purple); font-size: 12px; font-weight: 700;
+      padding: 6px 16px; border-radius: 999px;
+      letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 20px;
+    }
+    .analytics-kicker-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--purple); flex-shrink: 0; }
+    .analytics-header h2 {
+      font-size: clamp(28px, 4vw, 44px); font-weight: 800;
+      color: var(--near-blk); letter-spacing: -0.03em; margin-bottom: 14px; line-height: 1.12;
+    }
+    .analytics-header p {
+      font-size: clamp(15px, 2vw, 17px); color: var(--mid-grey);
+      max-width: 520px; margin: 0 auto; line-height: 1.65;
+    }
+    .analytics-graphs { display: grid; grid-template-columns: 5fr 3fr 4fr; gap: 16px; align-items: start; }
+    .graph-card {
+      background: rgba(255,255,255,0.92);
+      border-radius: 20px; border: 1px solid rgba(0,0,0,0.07);
+      box-shadow: 0 2px 16px rgba(28,27,46,0.07), 0 1px 4px rgba(28,27,46,0.04);
+      padding: 24px 22px 20px;
+      display: flex; flex-direction: column; gap: 6px;
+      backdrop-filter: blur(8px);
+    }
+    .graph-card-title { font-size: 15px; font-weight: 700; color: var(--near-blk); letter-spacing: -0.01em; }
+    .graph-card-sub { font-size: 12px; color: var(--mid-grey); margin-bottom: 4px; line-height: 1.4; }
+    .graph-svg { width: 100%; height: auto; overflow: visible; }
+
+    /* Legend row */
+    .chart-legend { display: flex; gap: 16px; margin-top: 6px; }
+    .chart-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 600; color: var(--mid-grey); }
+    .chart-legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    /* Line chart animations */
+    .chart-line { stroke-dasharray: 1; stroke-dashoffset: 1; }
+    @keyframes drawLine { to { stroke-dashoffset: 0; } }
+    .graph-animated .line-success { animation: drawLine 1.4s ease-out 0.1s forwards; }
+    .graph-animated .line-errors  { animation: drawLine 1.4s ease-out 0.3s forwards; }
+
+    /* Donut chart — circ = 2π*42 ≈ 264, dasharray = "264 264" trick */
+    /* dashoffset 264 = empty, blue 67%: offset→87, red 33%: offset→177 */
+    .donut-blue { stroke-dasharray: 264 264; stroke-dashoffset: 264; }
+    .donut-red  { stroke-dasharray: 264 264; stroke-dashoffset: 264; }
+    @keyframes donutBlue { to { stroke-dashoffset: 87; } }
+    @keyframes donutRed  { to { stroke-dashoffset: 177; } }
+    .graph-animated .donut-blue { animation: donutBlue 1.1s cubic-bezier(0.22,0.61,0.36,1) 0.2s forwards; }
+    .graph-animated .donut-red  { animation: donutRed  1.1s cubic-bezier(0.22,0.61,0.36,1) 0.4s forwards; }
+    .donut-wrap { display: flex; align-items: center; justify-content: center; padding: 10px 0; }
+    .donut-legend { margin-top: 10px; display: flex; gap: 16px; justify-content: center; }
+    .donut-legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; }
+    .donut-legend-swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+    /* Adoption progress bars */
+    .adopt-rows { display: flex; flex-direction: column; gap: 14px; margin-top: 8px; }
+    .adopt-row-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+    .adopt-row-name { font-size: 12.5px; font-weight: 500; color: var(--near-blk); line-height: 1.4; }
+    .adopt-row-count { font-size: 11px; color: var(--mid-grey); white-space: nowrap; }
+    .adopt-track { height: 6px; background: rgba(123,108,246,0.10); border-radius: 999px; overflow: hidden; }
+    .adopt-fill { height: 100%; border-radius: 999px; transform: scaleX(0); transform-origin: left; }
+    .adopt-fill-green  { background: #22c55e; }
+    .adopt-fill-blue   { background: #7B6CF6; }
+    .adopt-fill-purple { background: #a78bfa; }
+    @keyframes barFillX { to { transform: scaleX(1); } }
+    .graph-animated .adopt-fill-1 { animation: barFillX 0.8s cubic-bezier(0.22,0.61,0.36,1) 0.15s forwards; }
+    .graph-animated .adopt-fill-2 { animation: barFillX 0.8s cubic-bezier(0.22,0.61,0.36,1) 0.30s forwards; }
+    .graph-animated .adopt-fill-3 { animation: barFillX 0.8s cubic-bezier(0.22,0.61,0.36,1) 0.45s forwards; }
+    .adopt-enrol { margin-top: 14px; font-size: 13px; font-weight: 600; color: var(--purple); }
+
+    @media (max-width: 960px) { .analytics-graphs { grid-template-columns: 1fr 1fr; } .analytics-graphs .graph-card:first-child { grid-column: 1 / -1; } }
+    @media (max-width: 600px) { .analytics-graphs { grid-template-columns: 1fr; } .analytics-section { padding: 36px 20px 60px; } }
+
     /* ─── ANIMATIONS ─────────────────────────────────────────────── */
     .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1); }
     .fade-up.visible { opacity: 1; transform: translateY(0); }
@@ -512,6 +592,123 @@
     <!-- Marketing (photo right) -->
     <div class="hero-chip chip-5">⚡ 14 devices synced</div>
     <div class="hero-chip chip-6">✅ Claude Desktop configured</div>
+  </div>
+</section>
+
+<!-- ANALYTICS GRAPHS -->
+<section class="analytics-section" id="analytics">
+  <div class="analytics-inner">
+
+    <div class="analytics-header fade-up">
+      <div class="analytics-kicker"><span class="analytics-kicker-dot"></span>Analytics</div>
+      <h2>Full visibility across your whole organisation</h2>
+      <p>Know exactly how AI is being used, by whom, and at what cost. In real time.</p>
+    </div>
+
+    <div class="analytics-graphs fade-up fade-up-d1">
+
+      <!-- Card 1: Tool call activity line chart -->
+      <div class="graph-card">
+        <div class="graph-card-title">Tool call activity</div>
+        <div class="graph-card-sub">MCP proxy successes and errors by day</div>
+        <svg class="graph-svg" viewBox="0 0 300 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Grid lines -->
+          <line x1="32" y1="18" x2="292" y2="18" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4 3"/>
+          <line x1="32" y1="38" x2="292" y2="38" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4 3"/>
+          <line x1="32" y1="58" x2="292" y2="58" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4 3"/>
+          <line x1="32" y1="78" x2="292" y2="78" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4 3"/>
+          <line x1="32" y1="98" x2="292" y2="98" stroke="#e5e7eb" stroke-width="1"/>
+          <!-- Y axis labels -->
+          <text x="26" y="22"  text-anchor="end" font-size="9" fill="#9ca3af" font-family="Manrope,sans-serif">4</text>
+          <text x="26" y="42"  text-anchor="end" font-size="9" fill="#9ca3af" font-family="Manrope,sans-serif">3</text>
+          <text x="26" y="62"  text-anchor="end" font-size="9" fill="#9ca3af" font-family="Manrope,sans-serif">2</text>
+          <text x="26" y="82"  text-anchor="end" font-size="9" fill="#9ca3af" font-family="Manrope,sans-serif">1</text>
+          <text x="26" y="102" text-anchor="end" font-size="9" fill="#9ca3af" font-family="Manrope,sans-serif">0</text>
+          <!-- X axis labels -->
+          <text x="38"  y="114" font-size="8.5" fill="#9ca3af" font-family="Manrope,sans-serif">6 Mar</text>
+          <text x="115" y="114" font-size="8.5" fill="#9ca3af" font-family="Manrope,sans-serif">11 Mar</text>
+          <text x="208" y="114" font-size="8.5" fill="#9ca3af" font-family="Manrope,sans-serif">17 Mar</text>
+          <text x="264" y="114" font-size="8.5" fill="#9ca3af" font-family="Manrope,sans-serif">20 Mar</text>
+          <!-- Success line (blue) — bell curve peaking at x≈228 (17 Mar) at y=58 (value 2) -->
+          <path class="chart-line line-success" pathLength="1"
+            d="M 38,98 L 180,98 C 196,98 204,58 228,58 C 248,58 256,98 270,98 L 290,98"
+            stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Errors line (red) — bell curve peaking at x≈228 at y=78 (value 1) -->
+          <path class="chart-line line-errors" pathLength="1"
+            d="M 38,98 L 188,98 C 202,98 210,78 228,78 C 244,78 252,98 266,98 L 290,98"
+            stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="chart-legend">
+          <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#2563EB"></div>Success</div>
+          <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#ef4444"></div>Errors</div>
+        </div>
+      </div>
+
+      <!-- Card 2: Call status donut -->
+      <div class="graph-card">
+        <div class="graph-card-title">Call status</div>
+        <div class="graph-card-sub">Share of successful proxy calls</div>
+        <div class="donut-wrap">
+          <svg width="130" height="130" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Background track -->
+            <circle cx="60" cy="60" r="42" stroke="#f3f4f6" stroke-width="14" fill="none"/>
+            <!-- Blue arc: 67% — dashoffset animates 264→87, rotate(-90) -->
+            <circle class="donut-blue" cx="60" cy="60" r="42"
+              stroke="#2563EB" stroke-width="14" fill="none"
+              transform="rotate(-90 60 60)"/>
+            <!-- Red arc: 33% — starts where blue ends (rotate 151°) — dashoffset animates 264→177 -->
+            <circle class="donut-red" cx="60" cy="60" r="42"
+              stroke="#ef4444" stroke-width="14" fill="none"
+              transform="rotate(151 60 60)"/>
+            <!-- Centre text -->
+            <text x="60" y="55" text-anchor="middle" font-size="20" font-weight="800" fill="#1C1B2E" font-family="Manrope,sans-serif">67%</text>
+            <text x="60" y="70" text-anchor="middle" font-size="9.5" fill="#6B6B80" font-family="Manrope,sans-serif">Success</text>
+          </svg>
+        </div>
+        <div class="donut-legend">
+          <div class="donut-legend-item" style="color:#2563EB"><div class="donut-legend-swatch" style="background:#2563EB"></div>Success</div>
+          <div class="donut-legend-item" style="color:#ef4444"><div class="donut-legend-swatch" style="background:#ef4444"></div>Errors</div>
+        </div>
+        <div style="font-size:11px; color:var(--mid-grey); text-align:center; margin-top:6px;">All time · 3 total</div>
+      </div>
+
+      <!-- Card 3: Adoption overview -->
+      <div class="graph-card">
+        <div class="graph-card-title">Adoption overview</div>
+        <div class="graph-card-sub">Provisioning coverage across your organisation</div>
+        <div class="adopt-rows">
+          <div>
+            <div class="adopt-row-label">
+              <span class="adopt-row-name">Users with device linked</span>
+              <span class="adopt-row-count">1/16 · 6%</span>
+            </div>
+            <div class="adopt-track">
+              <div class="adopt-fill adopt-fill-green adopt-fill-1" style="width:6%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="adopt-row-label">
+              <span class="adopt-row-name">Users with any assignment</span>
+              <span class="adopt-row-count">1/16 · 6%</span>
+            </div>
+            <div class="adopt-track">
+              <div class="adopt-fill adopt-fill-blue adopt-fill-2" style="width:6%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="adopt-row-label">
+              <span class="adopt-row-name">Teams with profile assigned</span>
+              <span class="adopt-row-count">1/19 · 5%</span>
+            </div>
+            <div class="adopt-track">
+              <div class="adopt-fill adopt-fill-purple adopt-fill-3" style="width:5%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="adopt-enrol">Enrol more devices →</div>
+      </div>
+
+    </div>
   </div>
 </section>
 
@@ -777,6 +974,17 @@
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
   document.querySelectorAll('.hero-inner *').forEach(el => el.classList.add('visible'));
   document.querySelectorAll('.hero-chip').forEach(el => el.classList.add('chip-visible'));
+
+  // Analytics graph animations
+  const graphSection = document.querySelector('.analytics-section');
+  if (graphSection) {
+    const graphObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('graph-animated'); graphObs.unobserve(entry.target); }
+      });
+    }, { threshold: 0.15 });
+    graphObs.observe(graphSection);
+  }
 </script>
 </body>
 </html>
